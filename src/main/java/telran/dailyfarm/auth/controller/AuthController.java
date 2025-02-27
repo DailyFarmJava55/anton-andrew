@@ -20,47 +20,47 @@ import telran.dailyfarm.auth.dto.UserRegisterDto;
 import telran.dailyfarm.auth.service.AuthService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
   final AuthService authService;
 
-  @PostMapping("/api/user/register")
+  @PostMapping("/user/register")
   public UserDto registerUser(@RequestBody UserRegisterDto userRegisterDto) {
     return authService.registerUser(userRegisterDto);
   }
 
-  @PostMapping("/api/farm/register")
+  @PostMapping("/farm/register")
   public FarmDto registerFarm(@RequestBody FarmRegisterDto farmRegisterDto) {
     return authService.registerFarm(farmRegisterDto);
   }
 
-  @PostMapping("/api/user/login")
+  @PostMapping("/user/login")
   public UserDto loginUser(Principal principal) {
     return authService.getUser(principal.getName());
   }
 
-  @PostMapping("/api/farm/login")
+  @PostMapping("/farm/login")
   public FarmDto loginFarm(Principal principal) {
     return authService.getFarm(principal.getName());
   }
 
-  @GetMapping("/api/user/{login}")
+  @GetMapping("/user/{login}")
   public UserDto getUser(@PathVariable String login) {
     return authService.getUser(login);
   }
 
-  @GetMapping("/api/farm/{id}")
+  @GetMapping("/farm/{id}")
   public FarmDto getFarm(@PathVariable String id) {
     return authService.getFarm(id);
   }
 
-  @PostMapping("/api/user/{login}")
+  @PostMapping("/user/{login}")
   public UserDto updateUser(@PathVariable String login, @RequestBody UpdateUserDto updateUserDto) {
     return authService.updateUser(login, updateUserDto);
   }
 
-  @PostMapping("/api/farm/{id}")
+  @PostMapping("/farm/{id}")
   public FarmDto updateFarm(@PathVariable String id, @RequestBody UpdateFarmDto updateFarmDto) {
     return authService.updateFarm(id, updateFarmDto);
   }
