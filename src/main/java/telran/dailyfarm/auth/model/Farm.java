@@ -14,7 +14,7 @@ import telran.dailyfarm.auth.dto.LocationDto;
 @AllArgsConstructor
 public class Farm {
   @Id
-  String login;
+  String email;
   String password;
   String farmName;
   LocationDto location;

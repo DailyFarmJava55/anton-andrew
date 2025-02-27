@@ -7,15 +7,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Document(collection = "users")
 @Getter
 @Setter
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+public class UserAccount {
   @Id
-  String login;
+  String email;
   String password;
   String phoneNumber;
   LocalDate birthDate;

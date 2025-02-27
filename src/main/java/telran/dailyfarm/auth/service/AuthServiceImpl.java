@@ -18,7 +18,7 @@ import telran.dailyfarm.auth.dto.UserRegisterDto;
 import telran.dailyfarm.auth.dto.exceptions.UserExistsExcepsion;
 import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
 import telran.dailyfarm.auth.model.Farm;
-import telran.dailyfarm.auth.model.User;
+import telran.dailyfarm.auth.model.UserAccount;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +31,10 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public UserDto registerUser(UserRegisterDto userRegisterDto) {
-    if (authUserRepository.existsById(userRegisterDto.getLogin())) {
+    if (authUserRepository.existsById(userRegisterDto.getEmail())) {
       throw new UserExistsExcepsion();
     }
-    User user = modelMapper.map(userRegisterDto, User.class);
+    UserAccount user = modelMapper.map(userRegisterDto, UserAccount.class);
     String pwd = passwordEncoder.encode(userRegisterDto.getPassword());
     user.setPassword(pwd);
     authUserRepository.save(user);
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public UserDto login(Principal principal) {
-	return null;
+    return null;
   }
 
   @Override
@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public UserDto updateUser(String login, UpdateUserDto updateUserDto) {
-    User user = authUserRepository.findById(login).orElseThrow(UserNotFoundException::new);
+    UserAccount user = authUserRepository.findById(login).orElseThrow(UserNotFoundException::new);
     if (updateUserDto.getCountry() != null) {
       user.setCountry(updateUserDto.getCountry());
     }
@@ -96,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public UserDto deleteAccount(String login) {
-    User user = authUserRepository.findById(login).orElseThrow(UserNotFoundException::new);
+    UserAccount user = authUserRepository.findById(login).orElseThrow(UserNotFoundException::new);
     authUserRepository.deleteById(login);
     return modelMapper.map(user, UserDto.class);
   }

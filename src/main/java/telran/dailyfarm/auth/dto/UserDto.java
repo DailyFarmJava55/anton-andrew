@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserDto {
-  String login;
+  String email;
   String phoneNumber;
   LocalDate birthDate;
   String country;
