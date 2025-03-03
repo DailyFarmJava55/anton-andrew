@@ -1,6 +1,7 @@
 package telran.dailyfarm.farm.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
@@ -9,6 +10,7 @@ import telran.dailyfarm.farm.dto.FarmDto;
 import telran.dailyfarm.farm.dto.UpdateFarmDto;
 import telran.dailyfarm.farm.model.FarmAccount;
 
+@Service
 @RequiredArgsConstructor
 public class FarmServiceImpl implements FarmService {
 
