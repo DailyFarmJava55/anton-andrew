@@ -1,4 +1,4 @@
-package telran.dailyfarm.auth.dto;
+package telran.dailyfarm.user.dto;
 
 import java.time.LocalDate;
 

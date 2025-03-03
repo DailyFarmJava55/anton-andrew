@@ -8,19 +8,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import telran.dailyfarm.auth.dao.AuthUserRepository;
-import telran.dailyfarm.auth.model.UserAccount;
+import telran.dailyfarm.auth.dao.AuthFarmRepository;
+import telran.dailyfarm.auth.model.Farm;
 
-@Service("UserDetailsService")
+@Service("FarmDetailsService")
 @RequiredArgsConstructor
-public class UserDetailServiceImpl implements UserDetailsService {
-  final AuthUserRepository authUserRepository;
+public class FarmDetailServiceImpl implements UserDetailsService {
+  final AuthFarmRepository authFarmRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserAccount userAccount = authUserRepository.findById(username)
+    Farm farm = authFarmRepository.findById(username)
         .orElseThrow(() -> new UsernameNotFoundException(username));
-    return new User(username, userAccount.getPassword(),
+    return new User(username, farm.getPassword(),
         AuthorityUtils.createAuthorityList());
   }
 }

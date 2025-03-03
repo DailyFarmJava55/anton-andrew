@@ -1,18 +1,20 @@
-package telran.dailyfarm.auth.model;
+package telran.dailyfarm.farm.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import telran.dailyfarm.auth.dto.LocationDto;
+import telran.dailyfarm.farm.dto.LocationDto;
 
 @Document(collection = "farms")
 @Getter
 @Setter
 @AllArgsConstructor
-public class Farm {
+@NoArgsConstructor
+public class FarmAccount {
   @Id
   String email;
   String password;

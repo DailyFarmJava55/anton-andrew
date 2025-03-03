@@ -1,4 +1,4 @@
-package telran.dailyfarm.auth.model;
+package telran.dailyfarm.user.model;
 
 import java.time.LocalDate;
 

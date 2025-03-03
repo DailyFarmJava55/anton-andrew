@@ -1,4 +1,4 @@
-package telran.dailyfarm.auth.dto;
+package telran.dailyfarm.farm.dto;
 
 import lombok.Getter;
 

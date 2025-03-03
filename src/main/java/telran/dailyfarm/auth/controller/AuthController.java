@@ -2,7 +2,6 @@ package telran.dailyfarm.auth.controller;
 
 import java.security.Principal;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import telran.dailyfarm.auth.dto.FarmDto;
 import telran.dailyfarm.auth.dto.FarmRegisterDto;
-import telran.dailyfarm.auth.dto.UpdateFarmDto;
-import telran.dailyfarm.auth.dto.UpdateUserDto;
-import telran.dailyfarm.auth.dto.UserDto;
 import telran.dailyfarm.auth.dto.UserRegisterDto;
 import telran.dailyfarm.auth.service.AuthService;
+import telran.dailyfarm.farm.dto.FarmDto;
+import telran.dailyfarm.user.dto.UserDto;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -53,21 +50,6 @@ public class AuthController {
   @GetMapping("/farm/{id}")
   public FarmDto getFarm(@PathVariable String id) {
     return authService.getFarm(id);
-  }
-
-  @PostMapping("/user/{login}")
-  public UserDto updateUser(@PathVariable String login, @RequestBody UpdateUserDto updateUserDto) {
-    return authService.updateUser(login, updateUserDto);
-  }
-
-  @PostMapping("/farm/{id}")
-  public FarmDto updateFarm(@PathVariable String id, @RequestBody UpdateFarmDto updateFarmDto) {
-    return authService.updateFarm(id, updateFarmDto);
-  }
-
-  @DeleteMapping("/user/{login}")
-  public UserDto deleteAccount(@PathVariable String login) {
-    return authService.deleteAccount(login);
   }
 
   @GetMapping("/user/logout")
