@@ -24,7 +24,7 @@ public class FarmJwtUtil implements JwtUtil {
 		return Jwts.builder()
 				.subject(authentication.getName())
 				.issuedAt(new Date())
-				.expiration(new Date((new Date()).getTime() + lifetime))
+				.expiration(new Date(System.currentTimeMillis() + (lifetime * 1000)))
 				.signWith(secretKey)
 				.compact();
 	}

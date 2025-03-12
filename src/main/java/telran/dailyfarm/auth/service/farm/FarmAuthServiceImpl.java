@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import telran.dailyfarm.auth.dto.FarmRegisterDto;
 import telran.dailyfarm.auth.dto.LoginDto;
+import telran.dailyfarm.auth.dto.LoginResponse;
 import telran.dailyfarm.auth.dto.exceptions.UserExistsExcepsion;
 import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
 import telran.dailyfarm.farm.dao.FarmRepository;
@@ -38,7 +39,7 @@ public class FarmAuthServiceImpl implements FarmAuthService {
     this.farmRepository = farmRepository;
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    this.authenticationManagerFarm = authenticationManagerFarm; // Инициализация через конструктор
+    this.authenticationManagerFarm = authenticationManagerFarm;
     this.farmJwtUtil = farmJwtUtil;
     this.modelMapper = modelMapper;
   }
@@ -64,7 +65,7 @@ public class FarmAuthServiceImpl implements FarmAuthService {
       Authentication authentication = authenticationManagerFarm.authenticate(
           new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
       String token = farmJwtUtil.generateToken(authentication);
-      return ResponseEntity.ok(token);
+      return ResponseEntity.ok(new LoginResponse(loginDto.getEmail(), token));
     } catch (AuthenticationException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
     }

@@ -31,12 +31,12 @@ public class ServiceConfiguration {
     return modelMapper;
   }
 
-  @Bean()
+  @Bean
   PasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean()
+  @Bean
   @Qualifier("userAuthenticationManager")
   @Primary
   AuthenticationManager authenticationManagerUser(UserDetailService userDetailService,

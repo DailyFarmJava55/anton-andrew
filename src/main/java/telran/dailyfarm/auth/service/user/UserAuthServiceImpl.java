@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import telran.dailyfarm.auth.dto.LoginDto;
+import telran.dailyfarm.auth.dto.LoginResponse;
 import telran.dailyfarm.auth.dto.UserRegisterDto;
 import telran.dailyfarm.auth.dto.exceptions.UserExistsExcepsion;
 import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
@@ -63,7 +64,7 @@ public class UserAuthServiceImpl implements UserAuthService {
       Authentication authentication = authenticationManagerUser.authenticate(
           new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
       String token = userJwtUtil.generateToken(authentication);
-      return ResponseEntity.ok(token);
+      return ResponseEntity.ok(new LoginResponse(loginDto.getEmail(), token));
     } catch (AuthenticationException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
