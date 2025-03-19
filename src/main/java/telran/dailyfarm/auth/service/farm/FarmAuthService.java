@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 import telran.dailyfarm.auth.dto.FarmRegisterDto;
 import telran.dailyfarm.auth.dto.LoginDto;
+import telran.dailyfarm.auth.dto.RefreshRequest;
 import telran.dailyfarm.farm.dto.FarmDto;
 
 public interface FarmAuthService {
@@ -12,4 +13,6 @@ public interface FarmAuthService {
   ResponseEntity<?> loginFarm(LoginDto loginDto);
 
   FarmDto getFarm(String id);
+
+  ResponseEntity<?> refreshToken(RefreshRequest refreshRequest);
 }

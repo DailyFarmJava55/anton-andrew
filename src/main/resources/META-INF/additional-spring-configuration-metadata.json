@@ -1,18 +1,24 @@
-{"properties": [
-  {
-    "name": "jwt.user.secret",
-    "type": "java.security.String",
-    "description": "A description for 'jwt.user.secret'"
-  },
-  {
+{
+  "properties": [
+    {
+      "name": "jwt.user.secret",
+      "type": "java.security.String",
+      "description": "A description for 'jwt.user.secret'"
+    },
+    {
       "name": "jwt.farm.secret",
       "type": "java.lang.String",
       "description": "A description for 'jwt.farm.secret'"
-  },
-  {
-    "name": "jwt.lifetime",
-    "type": "java.lang.int",
-    "description": "A description for 'jwt.lifetime'"
-  },
-  
-]}
+    },
+    {
+      "name": "jwt.lifetime",
+      "type": "java.lang.int",
+      "description": "A description for 'jwt.lifetime'"
+    },
+    {
+      "name": "jwt.refreshTime",
+      "type": "java.lang.int",
+      "description": "A description for 'jwt.refreshTime'"
+    }
+  ]
+}
