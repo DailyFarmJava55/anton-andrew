@@ -1,6 +1,5 @@
 package telran.dailyfarm.auth.controller;
 
-import java.security.Principal;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -21,6 +20,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import telran.dailyfarm.auth.dao.TokenBlacklistRepository;
 import telran.dailyfarm.auth.dto.LoginDto;
+import telran.dailyfarm.auth.dto.RefreshRequest;
 import telran.dailyfarm.auth.dto.UserRegisterDto;
 import telran.dailyfarm.auth.model.TokenBlackList;
 import telran.dailyfarm.auth.service.user.UserAuthService;
@@ -71,5 +71,10 @@ public class UserAuthController {
     } catch (Exception e) {
       return ResponseEntity.status(401).body("Token is not valid");
     }
+  }
+
+  @PostMapping("refresh")
+  public ResponseEntity<?> refreshToken(@RequestBody RefreshRequest refreshRequest) {
+    return userAuthService.refreshToken(refreshRequest);
   }
 }

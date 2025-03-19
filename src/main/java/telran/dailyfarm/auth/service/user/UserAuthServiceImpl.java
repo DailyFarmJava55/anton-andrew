@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import telran.dailyfarm.auth.dto.LoginDto;
 import telran.dailyfarm.auth.dto.LoginResponse;
+import telran.dailyfarm.auth.dto.RefreshRequest;
 import telran.dailyfarm.auth.dto.UserRegisterDto;
 import telran.dailyfarm.auth.dto.exceptions.UserExistsExcepsion;
 import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
@@ -64,7 +65,8 @@ public class UserAuthServiceImpl implements UserAuthService {
       Authentication authentication = authenticationManagerUser.authenticate(
           new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
       String token = userJwtUtil.generateToken(authentication);
-      return ResponseEntity.ok(new LoginResponse(loginDto.getEmail(), token));
+      String refreshToken = userJwtUtil.generateRefreshToken(authentication);
+      return ResponseEntity.ok(new LoginResponse(loginDto.getEmail(), token, refreshToken));
     } catch (AuthenticationException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
@@ -74,6 +76,19 @@ public class UserAuthServiceImpl implements UserAuthService {
   public UserDto getUser(String id) {
     UserAccount user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     return modelMapper.map(user, UserDto.class);
+  }
+
+  @Override
+  public ResponseEntity<?> refreshToken(RefreshRequest refreshRequest) {
+    String refreshToken = refreshRequest.getRefreshToken();
+    if (!userJwtUtil.validateJwtToken(refreshToken)) {
+      return ResponseEntity.status(401).body("Invalid or expired refresh token");
+    }
+    String email = userJwtUtil.getEmailFromJwt(refreshToken);
+    Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, null);
+    String newToken = userJwtUtil.generateToken(authentication);
+    String newRefreshToken = userJwtUtil.generateRefreshToken(authentication);
+    return ResponseEntity.ok(new LoginResponse(email, newToken, newRefreshToken));
   }
 
 }

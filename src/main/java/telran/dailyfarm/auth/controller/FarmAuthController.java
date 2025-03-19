@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import telran.dailyfarm.auth.dao.TokenBlacklistRepository;
 import telran.dailyfarm.auth.dto.FarmRegisterDto;
 import telran.dailyfarm.auth.dto.LoginDto;
+import telran.dailyfarm.auth.dto.RefreshRequest;
 import telran.dailyfarm.auth.model.TokenBlackList;
 import telran.dailyfarm.auth.service.farm.FarmAuthService;
 import telran.dailyfarm.farm.dto.FarmDto;
@@ -70,6 +71,11 @@ public class FarmAuthController {
     } catch (Exception e) {
       return ResponseEntity.status(401).body("Token is not valid");
     }
+  }
+
+  @PostMapping("refresh")
+  public ResponseEntity<?> refreshToken(@RequestBody RefreshRequest refreshRequest) {
+    return farmAuthService.refreshToken(refreshRequest);
   }
 
 }
