@@ -2,6 +2,7 @@ package telran.dailyfarm.surprisebag.controller;
 
 import java.security.Principal;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,22 +21,22 @@ public class SurprisebagController {
   final SurprisebagService surprisebagService;
 
   @GetMapping("add")
-  public SurprisebagDto addQuantity(Principal principal) {
-    return surprisebagService.addQuantity(principal);
-  }
-
-  @PostMapping("set/{quantity}")
-  public SurprisebagDto setQuantity(Principal principal, @PathVariable int quantity) {
-    return surprisebagService.setQuantity(principal, quantity);
-  }
-
-  @GetMapping("remove")
-  public SurprisebagDto removeQuantity(Principal principal) {
-    return surprisebagService.removeQuantity(principal);
+  public SurprisebagDto addSurprisebag(Principal principal) {
+    return surprisebagService.addSurpriseBag(principal);
   }
 
   @PostMapping("update")
   public SurprisebagDto updateBag(Principal principal, @RequestBody SurprisebagDto surprisebagDto) {
     return surprisebagService.updateBag(principal, surprisebagDto);
+  }
+
+  @DeleteMapping("remove")
+  public SurprisebagDto deleteBag(Principal principal) {
+    return surprisebagService.deleteBag(principal);
+  }
+
+  @GetMapping("get/{id}")
+  public SurprisebagDto getBag(@PathVariable String id) {
+    return surprisebagService.getSurpriseBag(id);
   }
 }

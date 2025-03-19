@@ -6,9 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
 import telran.dailyfarm.farm.dao.FarmRepository;
-import telran.dailyfarm.farm.model.FarmAccount;
+import telran.dailyfarm.surprisebag.dao.SurprisebagRepository;
 import telran.dailyfarm.surprisebag.dto.SurprisebagDto;
 import telran.dailyfarm.surprisebag.model.Surprisebag;
 
@@ -17,66 +16,23 @@ import telran.dailyfarm.surprisebag.model.Surprisebag;
 public class SurprisebagServiceImpl implements SurprisebagService {
   final FarmRepository farmRepository;
   final ModelMapper modelMapper;
+  final SurprisebagRepository surprisebagRepository;
 
   @Override
-  public SurprisebagDto addQuantity(Principal principal) {
-    FarmAccount farm = getFarm(principal.getName());
-    if (farm.getSurprisebag() == null) {
+  public SurprisebagDto addSurpriseBag(Principal principal) {
+    if (!surprisebagRepository.existsById(principal.getName())) {
       Surprisebag bag = new Surprisebag();
-      bag.setQuantity(1);
-      farm.setSurprisebag(bag);
-      farmRepository.save(farm);
+      bag.setFarmId(principal.getName());
+      surprisebagRepository.save(bag);
       return modelMapper.map(bag, SurprisebagDto.class);
     } else {
-      Surprisebag bag = farmRepository.findById(principal.getName()).get().getSurprisebag();
-      bag.setQuantity(bag.getQuantity() + 1);
-      farm.setSurprisebag(bag);
-      farmRepository.save(farm);
-      return modelMapper.map(bag, SurprisebagDto.class);
+      throw new RuntimeException();
     }
-  }
-
-  @Override
-  public SurprisebagDto setQuantity(Principal principal, int quantity) {
-    FarmAccount farm = getFarm(principal.getName());
-    if (farm.getSurprisebag() == null) {
-      Surprisebag bag = new Surprisebag();
-      bag.setQuantity(quantity);
-      farm.setSurprisebag(bag);
-      farmRepository.save(farm);
-      return modelMapper.map(bag, SurprisebagDto.class);
-    } else {
-      Surprisebag bag = farm.getSurprisebag();
-      bag.setQuantity(quantity);
-      farm.setSurprisebag(bag);
-      farmRepository.save(farm);
-      return modelMapper.map(bag, SurprisebagDto.class);
-    }
-  }
-
-  @Override
-  public SurprisebagDto removeQuantity(Principal principal) {
-    FarmAccount farm = getFarm(principal.getName());
-    if (farm.getSurprisebag() == null && farm.getSurprisebag().getQuantity() == 0) {
-      throw new IllegalArgumentException("Surprise bag is out of stock or not available");
-    } else {
-      Surprisebag bag = farm.getSurprisebag();
-      bag.setQuantity(bag.getQuantity() - 1);
-      farm.setSurprisebag(bag);
-      farmRepository.save(farm);
-      return modelMapper.map(bag, SurprisebagDto.class);
-    }
-  }
-
-  private FarmAccount getFarm(String email) {
-    FarmAccount farm = farmRepository.findById(email).orElseThrow(UserNotFoundException::new);
-    return farm;
   }
 
   @Override
   public SurprisebagDto updateBag(Principal principal, SurprisebagDto surprisebagDto) {
-    FarmAccount farm = getFarm(principal.getName());
-    Surprisebag bag = farm.getSurprisebag();
+    Surprisebag bag = surprisebagRepository.findById(principal.getName()).orElseThrow(RuntimeException::new);
     String name = surprisebagDto.getName();
     if (name != null) {
       bag.setName(name);
@@ -93,8 +49,20 @@ public class SurprisebagServiceImpl implements SurprisebagService {
     if (quantity != null) {
       bag.setQuantity(quantity);
     }
-    farm.setSurprisebag(bag);
-    farmRepository.save(farm);
+    surprisebagRepository.save(bag);
+    return modelMapper.map(bag, SurprisebagDto.class);
+  }
+
+  @Override
+  public SurprisebagDto getSurpriseBag(String id) {
+    Surprisebag bag = surprisebagRepository.findById(id).orElseThrow(RuntimeException::new);
+    return modelMapper.map(bag, SurprisebagDto.class);
+  }
+
+  @Override
+  public SurprisebagDto deleteBag(Principal principal) {
+    Surprisebag bag = surprisebagRepository.findById(principal.getName()).orElseThrow(RuntimeException::new);
+    surprisebagRepository.delete(bag);
     return modelMapper.map(bag, SurprisebagDto.class);
   }
 

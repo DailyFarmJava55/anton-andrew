@@ -1,5 +1,7 @@
 package telran.dailyfarm.farm.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +36,8 @@ public class FarmServiceImpl implements FarmService {
     return modelMapper.map(farm, FarmDto.class);
   }
 
+  @Override
+  public List<FarmDto> findFarms() {
+    return farmRepository.findAll().stream().map(f -> modelMapper.map(f, FarmDto.class)).toList();
+  }
 }

@@ -23,69 +23,69 @@ import telran.dailyfarm.security.jwt.UserJwtFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-        @Autowired
-        @Qualifier("userDetailsService")
-        private UserDetailsService userDetailService;
-        @Autowired
-        @Qualifier("farmDetailsService")
-        private UserDetailsService farmDetailService;
-        private final UserJwtFilter userJwtFilter;
-        private final FarmJwtFilter farmJwtFilter;
-        @Autowired
-        @Qualifier("userAuthenticationManager")
-        private AuthenticationManager userAuthenticationManager;
+  @Autowired
+  @Qualifier("userDetailsService")
+  private UserDetailsService userDetailService;
+  @Autowired
+  @Qualifier("farmDetailsService")
+  private UserDetailsService farmDetailService;
+  private final UserJwtFilter userJwtFilter;
+  private final FarmJwtFilter farmJwtFilter;
+  @Autowired
+  @Qualifier("userAuthenticationManager")
+  private AuthenticationManager userAuthenticationManager;
 
-        @Autowired
-        @Qualifier("farmAuthenticationManager")
-        private AuthenticationManager farmAuthenticationManager;
+  @Autowired
+  @Qualifier("farmAuthenticationManager")
+  private AuthenticationManager farmAuthenticationManager;
 
-        @Bean
-        SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
-                http.httpBasic(Customizer.withDefaults())
-                                .authenticationManager(userAuthenticationManager)
-                                .csrf(csrf -> csrf.disable())
-                                .userDetailsService(userDetailService)
-                                .securityMatcher("/api/auth/user/**", "/api/user/**")
-                                .sessionManagement(session -> session
-                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .authorizeHttpRequests(
-                                                authorize -> authorize
-                                                                .requestMatchers("/api/auth/user/register",
-                                                                                "/api/auth/user/login")
-                                                                .permitAll()
-                                                                .requestMatchers(HttpMethod.POST,
-                                                                                "/api/user/{login}")
-                                                                .access(new WebExpressionAuthorizationManager(
-                                                                                "#login == authentication.name"))
-                                                                .requestMatchers(HttpMethod.DELETE,
-                                                                                "/api/user/{login}")
-                                                                .access(new WebExpressionAuthorizationManager(
-                                                                                "#login == authentication.name"))
-                                                                .anyRequest()
-                                                                .authenticated())
-                                .addFilterBefore(userJwtFilter, UsernamePasswordAuthenticationFilter.class);
-                return http.build();
-        }
+  @Bean
+  SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.httpBasic(Customizer.withDefaults())
+        .authenticationManager(userAuthenticationManager)
+        .csrf(csrf -> csrf.disable())
+        .userDetailsService(userDetailService)
+        .securityMatcher("/api/auth/user/**", "/api/user/**")
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            authorize -> authorize
+                .requestMatchers("/api/auth/user/register",
+                    "/api/auth/user/login")
+                .permitAll()
+                .requestMatchers(HttpMethod.POST,
+                    "/api/user/{login}")
+                .access(new WebExpressionAuthorizationManager(
+                    "#login == authentication.name"))
+                .requestMatchers(HttpMethod.DELETE,
+                    "/api/user/{login}")
+                .access(new WebExpressionAuthorizationManager(
+                    "#login == authentication.name"))
+                .anyRequest()
+                .authenticated())
+        .addFilterBefore(userJwtFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+  }
 
-        @Bean
-        SecurityFilterChain farmSecurityFilterChain(HttpSecurity http) throws Exception {
-                http.httpBasic(Customizer.withDefaults())
-                                .authenticationManager(farmAuthenticationManager)
-                                .csrf(csrf -> csrf.disable())
-                                .userDetailsService(farmDetailService)
-                                .securityMatcher("/api/auth/farm/**", "/api/farm/**")
-                                .sessionManagement(session -> session
-                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .authorizeHttpRequests(
-                                                authorize -> authorize
-                                                                .requestMatchers("/api/auth/farm/register",
-                                                                                "/api/auth/farm/login")
-                                                                .permitAll()
-                                                                .requestMatchers(HttpMethod.DELETE, "/api/farm/{login}")
-                                                                .access(new WebExpressionAuthorizationManager(
-                                                                                "#login == authentication.name"))
-                                                                .anyRequest().authenticated())
-                                .addFilterBefore(farmJwtFilter, UsernamePasswordAuthenticationFilter.class);
-                return http.build();
-        }
+  @Bean
+  SecurityFilterChain farmSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.httpBasic(Customizer.withDefaults())
+        .authenticationManager(farmAuthenticationManager)
+        .csrf(csrf -> csrf.disable())
+        .userDetailsService(farmDetailService)
+        .securityMatcher("/api/auth/farm/**", "/api/farm/**")
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            authorize -> authorize
+                .requestMatchers("/api/auth/farm/register",
+                    "/api/auth/farm/login")
+                .permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/api/farm/{login}")
+                .access(new WebExpressionAuthorizationManager(
+                    "#login == authentication.name"))
+                .anyRequest().authenticated())
+        .addFilterBefore(farmJwtFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+  }
 }

@@ -5,11 +5,12 @@ import java.security.Principal;
 import telran.dailyfarm.surprisebag.dto.SurprisebagDto;
 
 public interface SurprisebagService {
-  SurprisebagDto addQuantity(Principal principal);
 
-  SurprisebagDto setQuantity(Principal principal, int quantity);
+  SurprisebagDto addSurpriseBag(Principal principal);
 
-  SurprisebagDto removeQuantity(Principal principal);
+  SurprisebagDto getSurpriseBag(String id);
 
   SurprisebagDto updateBag(Principal principal, SurprisebagDto surprisebagDto);
+
+  SurprisebagDto deleteBag(Principal principal);
 }
