@@ -17,7 +17,7 @@ import telran.dailyfarm.surprisebag.service.SurprisebagService;
 @RestController
 @RequestMapping("/api/farm/bag/")
 @RequiredArgsConstructor
-public class SurprisebagController {
+public class SurprisebagFarmController {
   final SurprisebagService surprisebagService;
 
   @GetMapping("add")

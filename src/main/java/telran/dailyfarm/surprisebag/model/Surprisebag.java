@@ -20,5 +20,4 @@ public class Surprisebag {
   Double price;
   @Id
   String farmId;
-  // TODO: Add fields
 }
