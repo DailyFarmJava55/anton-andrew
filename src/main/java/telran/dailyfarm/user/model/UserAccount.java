@@ -1,6 +1,8 @@
 package telran.dailyfarm.user.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,4 +24,5 @@ public class UserAccount {
   String phoneNumber;
   LocalDate birthDate;
   String country;
+  Set<String> fav = new HashSet<>();
 }
