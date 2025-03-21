@@ -20,4 +20,5 @@ public class Surprisebag {
   Double price;
   @Id
   String farmId;
+  Status status;
 }

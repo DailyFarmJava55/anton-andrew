@@ -1,10 +1,10 @@
-package telran.dailyfarm.surprisebag.service;
+package telran.dailyfarm.surprisebag.service.farm;
 
 import java.security.Principal;
 
 import telran.dailyfarm.surprisebag.dto.SurprisebagDto;
 
-public interface SurprisebagService {
+public interface SurprisebagServiceFarm {
 
   SurprisebagDto addSurpriseBag(Principal principal);
 

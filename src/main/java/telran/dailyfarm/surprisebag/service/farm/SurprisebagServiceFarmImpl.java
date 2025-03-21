@@ -1,4 +1,4 @@
-package telran.dailyfarm.surprisebag.service;
+package telran.dailyfarm.surprisebag.service.farm;
 
 import java.security.Principal;
 
@@ -13,7 +13,7 @@ import telran.dailyfarm.surprisebag.model.Surprisebag;
 
 @Service
 @RequiredArgsConstructor
-public class SurprisebagServiceImpl implements SurprisebagService {
+public class SurprisebagServiceFarmImpl implements SurprisebagServiceFarm {
   final FarmRepository farmRepository;
   final ModelMapper modelMapper;
   final SurprisebagRepository surprisebagRepository;
