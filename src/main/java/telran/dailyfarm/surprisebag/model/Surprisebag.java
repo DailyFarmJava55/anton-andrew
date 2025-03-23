@@ -14,11 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Surprisebag {
+  @Id
+  String farmId;
   String name;
   String description;
   Integer quantity;
   Double price;
-  @Id
-  String farmId;
-  Status status;
 }

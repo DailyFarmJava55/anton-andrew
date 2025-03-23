@@ -1,4 +1,4 @@
-package telran.dailyfarm.surprisebag.model;
+package telran.dailyfarm.order.model;
 
 public enum Status {
   CANCELLED, PENDING, COLLECTED;

@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import telran.dailyfarm.surprisebag.dto.OrderUserDto;
+import telran.dailyfarm.order.model.Order;
 
 @Document(collection = "users")
 @Getter
@@ -25,5 +25,5 @@ public class UserAccount {
   String phoneNumber;
   LocalDate birthDate;
   String country;
-  List<OrderUserDto> orders = new ArrayList<>();
+  List<Order> orders = new ArrayList<>();
 }

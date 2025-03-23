@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import telran.dailyfarm.surprisebag.dto.OrderUserDto;
+import telran.dailyfarm.order.dto.OrderDto;
 import telran.dailyfarm.surprisebag.service.user.SurprisebagServiceUser;
 
 @RestController
@@ -18,7 +18,7 @@ public class SurprisebagUserController {
   final SurprisebagServiceUser surprisebagServiceUser;
 
   @GetMapping("order/{id}/{quantity}")
-  public OrderUserDto orderBag(@PathVariable String id, @PathVariable Integer quantity, Principal principal) {
+  public OrderDto orderBag(@PathVariable String id, @PathVariable Integer quantity, Principal principal) {
     return surprisebagServiceUser.orderBag(id, quantity, principal);
   }
 }

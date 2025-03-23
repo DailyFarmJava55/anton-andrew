@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import telran.dailyfarm.surprisebag.dto.OrderUserDto;
+import telran.dailyfarm.order.dto.OrderDto;
 
 @Getter
 @NoArgsConstructor
@@ -18,5 +18,5 @@ public class UserDto {
   String phoneNumber;
   LocalDate birthDate;
   String country;
-  List<OrderUserDto> orders;
+  List<OrderDto> orders;
 }
