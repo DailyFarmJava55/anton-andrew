@@ -1,6 +1,8 @@
 package telran.dailyfarm.user.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,5 +26,6 @@ public class UserAccount {
   String phoneNumber;
   LocalDate birthDate;
   String country;
+  List<String> orders = new ArrayList<>();
   Set<String> fav = new HashSet<>();
 }

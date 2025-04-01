@@ -1,5 +1,7 @@
 package telran.dailyfarm.farm.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,22 @@ public class FarmServiceImpl implements FarmService {
     FarmAccount farm = farmRepository.findById(login).orElseThrow(UserNotFoundException::new);
     farmRepository.deleteById(login);
     return modelMapper.map(farm, FarmDto.class);
+  }
+
+  @Override
+  public List<FarmDto> findFarms() {
+    return farmRepository.findAll().stream().map(f -> modelMapper.map(f, FarmDto.class)).toList();
+  }
+
+  public void setOrders(String orderId, String login) {
+    FarmAccount farm = farmRepository.findById(login).orElseThrow(UserNotFoundException::new);
+    farm.getOrders().add(orderId);
+    farmRepository.save(farm);
+  }
+
+  @Override
+  public FarmAccount findFarm(String id) {
+    return farmRepository.findById(id).orElseThrow(UserNotFoundException::new);
   }
 
 }
