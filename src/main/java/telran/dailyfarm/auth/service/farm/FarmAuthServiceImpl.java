@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import telran.dailyfarm.auth.dto.FarmRegisterDto;
 import telran.dailyfarm.auth.dto.LoginDto;
 import telran.dailyfarm.auth.dto.LoginResponse;
+import telran.dailyfarm.auth.dto.RefreshRequest;
 import telran.dailyfarm.auth.dto.exceptions.UserExistsExcepsion;
 import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
 import telran.dailyfarm.farm.dao.FarmRepository;
@@ -65,7 +66,8 @@ public class FarmAuthServiceImpl implements FarmAuthService {
       Authentication authentication = authenticationManagerFarm.authenticate(
           new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
       String token = farmJwtUtil.generateToken(authentication);
-      return ResponseEntity.ok(new LoginResponse(loginDto.getEmail(), token));
+      String refreshToken = farmJwtUtil.generateRefreshToken(authentication);
+      return ResponseEntity.ok(new LoginResponse(loginDto.getEmail(), token, refreshToken));
     } catch (AuthenticationException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
     }
@@ -75,5 +77,18 @@ public class FarmAuthServiceImpl implements FarmAuthService {
   public FarmDto getFarm(String id) {
     FarmAccount farm = farmRepository.findById(id).orElseThrow(UserNotFoundException::new);
     return modelMapper.map(farm, FarmDto.class);
+  }
+
+  @Override
+  public ResponseEntity<?> refreshToken(RefreshRequest refreshRequest) {
+    String refreshToken = refreshRequest.getRefreshToken();
+    if (!farmJwtUtil.validateJwtToken(refreshToken)) {
+      return ResponseEntity.status(401).body("Invalid or expired refresh token");
+    }
+    String email = farmJwtUtil.getEmailFromJwt(refreshToken);
+    Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, null);
+    String newToken = farmJwtUtil.generateToken(authentication);
+    String newRefreshToken = farmJwtUtil.generateRefreshToken(authentication);
+    return ResponseEntity.ok(new LoginResponse(email, newToken, newRefreshToken));
   }
 }

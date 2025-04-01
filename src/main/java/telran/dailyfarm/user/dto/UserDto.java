@@ -1,7 +1,9 @@
 package telran.dailyfarm.user.dto;
 
 import java.time.LocalDate;
+
 import java.util.List;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,4 +20,5 @@ public class UserDto {
   LocalDate birthDate;
   String country;
   List<String> orders;
+  Set<String> fav;
 }

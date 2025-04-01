@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import telran.dailyfarm.auth.dao.TokenBlacklistRepository;
 import telran.dailyfarm.security.UserDetailService;
 
 @Component
@@ -24,6 +25,7 @@ public class UserJwtFilter extends OncePerRequestFilter {
 
   final UserDetailService userDetailService;
   final UserJwtUtil jwtUtil;
+  final TokenBlacklistRepository tokenBlacklistRepository;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -34,6 +36,11 @@ public class UserJwtFilter extends OncePerRequestFilter {
       String headerAuth = request.getHeader("Authorization");
       if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
         token = headerAuth.substring(7);
+      }
+      if (tokenBlacklistRepository.existsByToken(token)) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("Token invalid");
+        return;
       }
       if (token != null) {
         try {
