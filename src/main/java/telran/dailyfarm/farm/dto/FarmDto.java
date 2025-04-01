@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import telran.dailyfarm.order.dto.OrderDto;
 import telran.dailyfarm.surprisebag.dto.SurprisebagDto;
 
 @Getter
@@ -16,5 +15,5 @@ public class FarmDto {
   String farmName;
   LocationDto location;
   SurprisebagDto surprisebag;
-  List<OrderDto> orders;
+  List<String> orders;
 }

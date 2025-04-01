@@ -11,7 +11,6 @@ import telran.dailyfarm.farm.dao.FarmRepository;
 import telran.dailyfarm.farm.dto.FarmDto;
 import telran.dailyfarm.farm.dto.UpdateFarmDto;
 import telran.dailyfarm.farm.model.FarmAccount;
-import telran.dailyfarm.order.model.Order;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +41,15 @@ public class FarmServiceImpl implements FarmService {
     return farmRepository.findAll().stream().map(f -> modelMapper.map(f, FarmDto.class)).toList();
   }
 
-  public void setOrders(Order order, String login) {
+  public void setOrders(String orderId, String login) {
     FarmAccount farm = farmRepository.findById(login).orElseThrow(UserNotFoundException::new);
-    farm.getOrders().add(order);
+    farm.getOrders().add(orderId);
     farmRepository.save(farm);
   }
+
+  @Override
+  public FarmAccount findFarm(String id) {
+    return farmRepository.findById(id).orElseThrow(UserNotFoundException::new);
+  }
+
 }

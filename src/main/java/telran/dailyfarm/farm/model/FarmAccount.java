@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import telran.dailyfarm.farm.dto.LocationDto;
-import telran.dailyfarm.order.model.Order;
 import telran.dailyfarm.surprisebag.model.Surprisebag;
 
 @Document(collection = "farms")
@@ -26,5 +25,5 @@ public class FarmAccount {
   String farmName;
   LocationDto location;
   Surprisebag surprisebag;
-  List<Order> orders = new ArrayList<>();
+  List<String> orders = new ArrayList<>();
 }
