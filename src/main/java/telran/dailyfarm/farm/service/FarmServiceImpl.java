@@ -6,10 +6,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import telran.dailyfarm.auth.dto.exceptions.UserNotFoundException;
 import telran.dailyfarm.farm.dao.FarmRepository;
 import telran.dailyfarm.farm.dto.FarmDto;
 import telran.dailyfarm.farm.dto.UpdateFarmDto;
+import telran.dailyfarm.farm.dto.exceptions.FarmNotFoundException;
 import telran.dailyfarm.farm.model.FarmAccount;
 
 @Service
@@ -21,7 +21,7 @@ public class FarmServiceImpl implements FarmService {
 
   @Override
   public FarmDto updateFarm(String login, UpdateFarmDto updateFarmDto) {
-    FarmAccount farm = farmRepository.findById(login).orElseThrow(UserNotFoundException::new);
+    FarmAccount farm = farmRepository.findById(login).orElseThrow(FarmNotFoundException::new);
     if (updateFarmDto.getFarmName() != null) {
       farm.setFarmName(updateFarmDto.getFarmName());
     }
@@ -31,7 +31,7 @@ public class FarmServiceImpl implements FarmService {
 
   @Override
   public FarmDto deleteAccountFarm(String login) {
-    FarmAccount farm = farmRepository.findById(login).orElseThrow(UserNotFoundException::new);
+    FarmAccount farm = farmRepository.findById(login).orElseThrow(FarmNotFoundException::new);
     farmRepository.deleteById(login);
     return modelMapper.map(farm, FarmDto.class);
   }
@@ -42,14 +42,14 @@ public class FarmServiceImpl implements FarmService {
   }
 
   public void setOrders(String orderId, String login) {
-    FarmAccount farm = farmRepository.findById(login).orElseThrow(UserNotFoundException::new);
+    FarmAccount farm = farmRepository.findById(login).orElseThrow(FarmNotFoundException::new);
     farm.getOrders().add(orderId);
     farmRepository.save(farm);
   }
 
   @Override
   public FarmAccount findFarm(String id) {
-    return farmRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    return farmRepository.findById(id).orElseThrow(FarmNotFoundException::new);
   }
 
 }

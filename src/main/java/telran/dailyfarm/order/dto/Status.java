@@ -1,4 +1,4 @@
-package telran.dailyfarm.order.model;
+package telran.dailyfarm.order.dto;
 
 public enum Status {
   CANCELLED, PENDING, COLLECTED;

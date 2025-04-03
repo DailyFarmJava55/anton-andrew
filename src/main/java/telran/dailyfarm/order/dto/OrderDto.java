@@ -1,7 +1,6 @@
 package telran.dailyfarm.order.dto;
 
 import lombok.Getter;
-import telran.dailyfarm.order.model.Status;
 
 @Getter
 public class OrderDto {
