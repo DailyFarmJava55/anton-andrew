@@ -1,4 +1,4 @@
-package telran.dailyfarm.surprisebag.controller;
+package telran.dailyfarm.bag.controller;
 
 import java.security.Principal;
 
@@ -11,32 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import telran.dailyfarm.surprisebag.dto.SurprisebagDto;
-import telran.dailyfarm.surprisebag.service.farm.SurprisebagServiceFarm;
+import telran.dailyfarm.bag.client.SurprisebagClient;
+import telran.dailyfarm.bag.dto.SurprisebagDto;
 
 @RestController
 @RequestMapping("/api/farm/bag/")
 @RequiredArgsConstructor
 public class SurprisebagFarmController {
-  final SurprisebagServiceFarm surprisebagServiceFarm;
+  final SurprisebagClient surprisebagClient;
 
   @GetMapping("add")
   public SurprisebagDto addSurprisebag(Principal principal) {
-    return surprisebagServiceFarm.addSurpriseBag(principal);
+    return surprisebagClient.addSurpriseBag(principal.getName());
   }
 
   @PostMapping("update")
   public SurprisebagDto updateBag(Principal principal, @RequestBody SurprisebagDto surprisebagDto) {
-    return surprisebagServiceFarm.updateBag(principal, surprisebagDto);
+    return surprisebagClient.updateBag(principal.getName(), surprisebagDto);
   }
 
   @DeleteMapping("remove")
   public SurprisebagDto deleteBag(Principal principal) {
-    return surprisebagServiceFarm.deleteBag(principal);
+    return surprisebagClient.deleteBag(principal.getName());
   }
 
   @GetMapping("get/{id}")
   public SurprisebagDto getBag(@PathVariable String id) {
-    return surprisebagServiceFarm.getSurpriseBag(id);
+    return surprisebagClient.getBag(id);
   }
 }

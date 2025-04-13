@@ -1,4 +1,4 @@
-package telran.dailyfarm.surprisebag.dto;
+package telran.dailyfarm.bag.dto;
 
 import lombok.Getter;
 
